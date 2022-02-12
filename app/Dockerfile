@@ -1,9 +1,14 @@
 # Basic flask container
 
-FROM fanoftal2/flask-crud-base:1
+FROM python:3.10.2-slim-buster
 
-ADD ./app /home/app/
 WORKDIR /home/app/
+ADD ./ /home/app/
+
+RUN apt-get update \
+    && apt-get -y install libpq-dev gcc \
+    && pip3 install -r requirements.txt
+
 
 EXPOSE 5000
 
