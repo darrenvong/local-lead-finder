@@ -1,8 +1,9 @@
 FROM alpine:3.7
 
-ADD requirements.txt /home/app/
+ADD scraper/ /home/scraper/
+ADD app/ /home/app/
 
-WORKDIR /home/app/
+WORKDIR /home/scraper/
 
 RUN apk add --no-cache postgresql-dev gcc python3 python3-dev musl-dev && \
     python3 -m ensurepip && \
@@ -11,5 +12,5 @@ RUN apk add --no-cache postgresql-dev gcc python3 python3-dev musl-dev && \
     rm -r /root/.cache && \
     pip3 install -r requirements.txt
 
-
-ENTRYPOINT ["python3", "app.py"]
+WORKDIR /home/
+ENTRYPOINT ["python3", "scraper/app.py"]
