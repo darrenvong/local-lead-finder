@@ -1,16 +1,15 @@
-FROM alpine:3.7
+FROM python:3.10.2-slim-buster
 
-ADD scraper/ /home/scraper/
-ADD app/ /home/app/
+# WORKDIR /home/app/
+# ADD ./ /home/app/
+ADD ./scraper/ /home/scraper/
+ADD ./app/ /home/app/
 
 WORKDIR /home/scraper/
 
-RUN apk add --no-cache postgresql-dev gcc python3 python3-dev musl-dev && \
-    python3 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
-    pip3 install --upgrade pip setuptools && \
-    rm -r /root/.cache && \
-    pip3 install -r requirements.txt
+RUN apt-get update \
+    && apt-get -y install libpq-dev gcc \
+    && pip3 install -r requirements.txt
 
 WORKDIR /home/
 ENTRYPOINT ["python3", "scraper/app.py"]
