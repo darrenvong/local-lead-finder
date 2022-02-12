@@ -1,11 +1,9 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
-from sqlalchemy.orm import declarative_base
 
-# declarative base class
-Base = declarative_base()
+from db import db
 
 
-class User(Base):
+class User(db.Model):
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
@@ -22,7 +20,7 @@ class User(Base):
     url = Column(String)
 
 
-class Tweet(Base):
+class Tweet(db.Model):
     __tablename__ = 'tweet'
 
     id = Column(Integer, primary_key=True)

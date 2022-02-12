@@ -1,0 +1,5 @@
+flask
+requests
+flask-sqlalchemy
+psycopg2
+SQLAlchemy
