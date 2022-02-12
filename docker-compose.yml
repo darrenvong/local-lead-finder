@@ -1,15 +1,23 @@
-version: '3.8'
+version: "3.7"
 services:
+  web:
+    build: ./app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app/:/home/app/
+    depends_on:
+      - db
+    restart: on-failure
   db:
-    image: postgres:14.1-alpine
-    restart: always
+    image: postgres:10
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
-      - '5432:5432'
-    volumes: 
-      - db:/var/lib/postgresql/data
-volumes:
-  db:
-    driver: local
+      - "5432:5432"
+  # scraper:
+  #   build: ./scraper
+  #   volumes:
+  #     - ./scraper:/home/app/
+  #   command: python3 app.py && tail -f /dev/null
