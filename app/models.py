@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
+from sqlalchemy import BigInteger, Column, Integer, String, DateTime, Boolean, ForeignKey
 
 from db import db
 
@@ -6,7 +6,7 @@ from db import db
 class User(db.Model):
     __tablename__ = 'user'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(BigInteger, primary_key=True)
     username = Column(String)
     displayname = Column(String)
     location = Column(String)
@@ -23,7 +23,7 @@ class User(db.Model):
 class Tweet(db.Model):
     __tablename__ = 'tweet'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(BigInteger, primary_key=True)
     content = Column(String)
     url = Column(String)
     date = Column(DateTime)

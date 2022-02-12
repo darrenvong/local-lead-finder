@@ -4,13 +4,15 @@ from datetime import datetime
 from db import db
 from models import User, Tweet
 
+db.create_all()
+
 with open("tweetStructureExample.json", encoding="utf8") as f:
     rawTweet = json.load(f)
     tweet = Tweet(
         id=rawTweet["id"],
         content=rawTweet["content"],
         url=rawTweet["url"],
-        date=datetime.date.fromisoformat(rawTweet["date"]),
+        date=datetime.fromisoformat(rawTweet["date"]),
         retweetedTweet=True if rawTweet["retweetedTweet"] else False,
         quotedTweet=True if rawTweet["quotedTweet"] else False
     )
@@ -23,7 +25,7 @@ with open("tweetStructureExample.json", encoding="utf8") as f:
         displayname=rawUser["displayname"],
         location=rawUser["location"],
         rawDescription=rawUser["rawDescription"],
-        created=datetime.date.fromisoformat(rawUser["created"]),
+        created=datetime.fromisoformat(rawUser["created"]),
         followersCount=rawUser["followersCount"],
         friendsCount=rawUser["friendsCount"],
         statusesCount=rawUser["statusesCount"],
