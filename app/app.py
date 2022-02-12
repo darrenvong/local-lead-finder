@@ -17,20 +17,7 @@ def database_initialization_sequence():
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    if request.method == 'POST':
-        if not request.form['name'] or not request.form['city'] or not request.form['addr']:
-            flash('Please enter all the fields', 'error')
-        else:
-            student = students(
-                    request.form['name'],
-                    request.form['city'],
-                    request.form['addr'])
-
-            db.session.add(student)
-            db.session.commit()
-            flash('Record was succesfully added')
-            return redirect(url_for('home'))
-    return render_template('show_all.html', students=students.query.all())
+    return render_template('home.html')
 
 
 if __name__ == '__main__':
