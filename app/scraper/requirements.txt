@@ -1,0 +1,16 @@
+flask
+requests
+flask-sqlalchemy
+psycopg2
+SQLAlchemybeautifulsoup4==4.10.0
+certifi==2021.10.8
+charset-normalizer==2.0.12
+filelock==3.4.2
+idna==3.3
+lxml==4.7.1
+PySocks==1.7.1
+pytz==2021.3
+requests==2.27.1
+snscrape==0.4.3.20220106
+soupsieve==2.3.1
+urllib3==1.26.8
