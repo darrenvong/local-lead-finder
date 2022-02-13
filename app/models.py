@@ -52,8 +52,9 @@ class KeywordTweet(db.model):
     keyword = Column(String)
     tweetID = Column(BigInteger, ForeignKey('tweet.id'), nullable=False)
 
-# class Locality(db.model):
-#   __tablename__ = 'locality'
+class Locality(db.model):
+    __tablename__ = 'locality'
 
-#   userID = Column(BigInteger, ForeignKey('user.id'), nullable=False)
-#   locality = Column(String)
+    id = Column(BigInteger, primary_key=True)
+    userID = Column(BigInteger, ForeignKey('user.id'), nullable=False)
+    locality = Column(String)

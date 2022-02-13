@@ -4,12 +4,12 @@ FUNC: Confirmation of probable locality
 '''
 from reader import localityTerms
 from db import db
-from models import Tweet, User#, Locality
+from models import Tweet, User, Locality
 
-# def commit_local_user(userID, locality):
-#     local_user = Locality(userID=userId, local=locality)
-#     db.session.add(local_user)
-#     db.session.commit()
+def commit_local_user(userID, locality):
+    local_user = Locality(userID=userID, local=locality)
+    db.session.add(local_user)
+    db.session.commit()
 
 def localityScore(localityTerms):
     '''
@@ -32,7 +32,7 @@ def localityScore(localityTerms):
 
         if localityScore > 0:
             local = 'y'
-            #commit_local_user(user, local)
+            commit_local_user(user, local)
 
 
 

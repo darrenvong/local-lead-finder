@@ -5,7 +5,7 @@ FUNC: - Identifying someone who speaks about topic frequently
 
 from wordNetExpander import keywordsExpanded
 from db import db
-from models import Tweet, User, KeywordScore, KeywordTweet#, Locality
+from models import Tweet, User, KeywordScore, KeywordTweet, Locality
 
 def commit_keyword_score(keyword, userId, score):
     keyword_score = KeywordScore(userID=userId, keyword=keyword, score=score)
@@ -25,8 +25,8 @@ def topicScore(keywordsExpanded):
     OUTPUT:
     - Score indicating how much a user discusses topic
     '''
-    users = User.query.all()
-    #users = Locality.query.filter_by(locality='y')
+    # users = User.query.all()
+    users = Locality.query.filter_by(locality='y')
 
     for user in users:
         tweets = Tweet.query.filter_by(userID=user.id)
