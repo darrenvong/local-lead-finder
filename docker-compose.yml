@@ -17,7 +17,8 @@ services:
     ports:
       - "5432:5432"
   scraper:
-    build:
-      context: .
-      dockerfile: ./scraper/Dockerfile
-    restart: on-failure
+    build: ./app
+    entrypoint: python3 scraper.py
+    depends_on:
+      - db
+    # restart: on-failure
