@@ -28,6 +28,7 @@ class Tweet(db.Model):
     __tablename__ = 'tweet'
 
     id = Column(BigInteger, primary_key=True)
+    userID = Column(BigInteger, ForeignKey('user.id'), nullable=False)
     content = Column(String)
     url = Column(String)
     date = Column(DateTime)
