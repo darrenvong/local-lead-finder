@@ -1,5 +1,4 @@
 import json
-from datetime import datetime
 
 import snscrape.modules.twitter as sntwitter
 
@@ -11,32 +10,36 @@ from models import Tweet, User
 db.create_all()
 
 def map_tweet_to_db(raw_tweet):
+    raw_user = raw_tweet.user
+    if not User.is_user_exists(raw_user.id):
+        user = User(
+            id=raw_user.id,
+            username=raw_user.username,
+            displayname=raw_user.displayname,
+            location=raw_user.location,
+            rawDescription=raw_user.rawDescription,
+            created=raw_user.created,
+            followersCount=raw_user.followersCount,
+            friendsCount=raw_user.friendsCount,
+            statusesCount=raw_user.statusesCount,
+            profileImageUrl=raw_user.profileImageUrl,
+            profileBannerUrl=raw_user.profileBannerUrl,
+            url=raw_user.url
+        )
+        db.session.add(user)
+        db.session.flush()
+    
     tweet = Tweet(
-        id=raw_tweet["id"],
-        content=raw_tweet["content"],
-        url=raw_tweet["url"],
-        date=datetime.fromisoformat(raw_tweet["date"]),
-        retweetedTweet=True if raw_tweet["retweetedTweet"] else False,
-        quotedTweet=True if raw_tweet["quotedTweet"] else False
+        id=raw_tweet.id,
+        content=raw_tweet.content,
+        url=raw_tweet.url,
+        date=raw_tweet.date,
+        retweetedTweet=True if raw_tweet.retweetedTweet else False,
+        userID=raw_tweet.user.id,
+        quotedTweet=True if raw_tweet.quotedTweet else False
     )
     db.session.add(tweet)
 
-    raw_user = raw_tweet["user"]
-    user = User(
-        id=raw_user["id"],
-        username=raw_user["username"],
-        displayname=raw_user["displayname"],
-        location=raw_user["location"],
-        rawDescription=raw_user["rawDescription"],
-        created=datetime.fromisoformat(raw_user["created"]),
-        followersCount=raw_user["followersCount"],
-        friendsCount=raw_user["friendsCount"],
-        statusesCount=raw_user["statusesCount"],
-        profileImageUrl=raw_user["profileImageUrl"],
-        profileBannerUrl=raw_user["profileBannerUrl"],
-        url=raw_user["url"]
-    )
-    db.session.add(user)
     db.session.commit()
 
 
@@ -52,11 +55,10 @@ def scrape_tweets(query, max_tries):
 
 
 if __name__ == "__main__":   
-    tweets = scrape_tweets("COVID :2022-02-10 until:2022-02-11", 10)
+    tweets = scrape_tweets("tottenham :2022-02-10 until:2022-02-11", 10)
 
     for t in tweets:
-        print(t.content)
-        # map_tweet_to_db(t)
+        map_tweet_to_db(t)
         #u = sntwitter.TwitterProfileScraper(t.user).get_items()
         # import pdb;pdb.set_trace()
         # tweet_user = User(
