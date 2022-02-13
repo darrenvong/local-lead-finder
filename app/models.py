@@ -33,3 +33,18 @@ class Tweet(db.Model):
     # "coordinates": null,
     # "place": null,
     # "hashtags": ["Haringey"]
+
+class KeywordScore(db.model):
+    __tablename__ = 'keywordScore'
+
+    id = Column(BigInteger, primary_key=True)
+    userID = Column(BigInteger, ForeignKey('user.id'), nullable=False)
+    keyword = Column(String)
+    score = Column(Integer)
+
+class KeywordTweet(db.model):
+    __tablename__ = 'keywordTweet'
+
+    id = Column(BigInteger, primary_key=True)
+    keyword = Column(String)
+    tweetID = Column(BigInteger, ForeignKey('tweet.id'), nullable=False)
