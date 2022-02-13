@@ -19,6 +19,10 @@ class User(db.Model):
     profileBannerUrl = Column(String)
     url = Column(String)
 
+    @classmethod
+    def get_user(cls, current_id):
+        return db.session.query(User).filter(User.id == current_id)
+
 
 class Tweet(db.Model):
     __tablename__ = 'tweet'
