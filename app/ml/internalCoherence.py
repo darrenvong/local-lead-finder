@@ -14,14 +14,20 @@ CRUNCH POINTS: 1. Number of keywords - potentially expansive??? 2. Text matching
 
 from ml.localityScorer import localUsersDict
 from ml.wordNetExpander import keywordsExpanded
+from db import db
+from models import Tweet, User, KeywordScore, KeywordTweet
 
 def commit_keyword_score(keyword, userId, score):
-    pass
+    keyword_score = KeywordScore(userID=userId, keyword=keyword, score=score)
+    db.session.add(keyword_score)
+    db.session.commit()
 
 def commit_tweet_keyword(keyword, tweetid):
-    pass
+    keyword_tweet = KeywordTweet(keyword=keyword, tweetID=tweetid)
+    db.session.add(keyword_tweet)
+    db.session.commit()
 
-def topicScore(localUsersDict, keywordsExpanded, currentKeyword = 0): #, leaderTerms = 0):
+def topicScore(keywordsExpanded):
     '''
     INPUT: 
     - Keywords with WordNet expanded terms - keywordsExpanded
@@ -29,22 +35,19 @@ def topicScore(localUsersDict, keywordsExpanded, currentKeyword = 0): #, leaderT
     OUTPUT:
     - Topic ranking: per user, per topic
     '''
-    for userID, tweets in localUsersDict.items(): 
+    users = User.query.all()
 
-        ### This section is for searching for all keywords
-        elif currentKeyword == 0:
-            for key in keywordsExpanded.keys():
-                keywordScore = 0
-                for tweet in tweets:
-                    for val in key:
-                        if val in tweet.lower():
-                            keywordScore += 1
-                            commit_tweet_keyword(key, tweet)
-                commit_keyword_score(key, userID, keywordScore)
-                
+    for user in users:
+        tweets = Tweet.query.filter(userID=user.id)
 
-
-
-
-    
-
+        ### This section is for searching for all keyword
+        for key in keywordsExpanded.keys():
+            keywordScore = 0
+            for tweet in tweets:
+                tweet.lower()
+                for val in key:
+                    val.lower()
+                    if val in tweet.content:
+                        keywordScore += 1
+                        commit_tweet_keyword(key, tweet)
+            commit_keyword_score(key, user, keywordScore)
