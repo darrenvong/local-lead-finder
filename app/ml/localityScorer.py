@@ -1,39 +1,38 @@
 '''
 LOCALITY SPECIFIER
 FUNC: Confirmation of probable locality
-SEND TO: 
-- Internal Coherence
 '''
-from ml.reader import localityTerms
+from reader import localityTerms
+from db import db
+from models import Tweet, User#, Locality
 
-def localityScore(usersDict, localityTerms):
+# def commit_local_user(userID, locality):
+#     local_user = Locality(userID=userId, local=locality)
+#     db.session.add(local_user)
+#     db.session.commit()
 
+def localityScore(localityTerms):
     '''
     INPUT: 
-    - usersDict: {userID: [statusesCount, [tweets]], userID2: [statusesCount, [tweets]]}
-    - localityTerms = [terms]
-
+    - Users, Tweets
     OUTPUT:
-    - localUsersDict
+    - Local users
     '''
+    
+    users = User.query.all()
 
-    localUsersDict = {}
-    localUsersDict[userID] = []
-
-    for user in usersDict.keys():
+    for user in users:
+        tweets = Tweet.query.filter(userID=user.id)
         localityScore = 0
         for l in localityTerms:
-            for tweet in user[1]:
-                if l in tweet:
+            for tweet in tweets:
+                if l in tweet.content:
                     localityScore += 1
-                    continue
+                    break
 
-        if localityScore > 5:
-            local = Y
-            def commit_local_user(userID, local):
-            pass
-
-    return localUsersDict
+        if localityScore > 0:
+            local = 'y'
+            #commit_local_user(user, local)
 
 
 

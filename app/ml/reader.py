@@ -1,17 +1,11 @@
 '''
 LOCALITY TERMS
-FUNC: Read our textfiles with locality terms
-INPUT: .txt files
-OUTPUT: localityTerms as list
-
-SENT TO: LocalityScorer
+FUNC: Read in locality terms
 '''
+
+## https://geographic.org/streetview/uk/Haringey_London_Boro/index.html
 
 with open("streets.txt", "r") as f:
     text = f.read()
 
 localityTerms = text.split("\n")
-
-## https://geographic.org/streetview/uk/Haringey_London_Boro/index.html
-
-print(localityTerms)
