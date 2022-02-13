@@ -23,7 +23,6 @@ class User(db.Model):
     def is_user_exists(cls, current_id):
         return db.session.query(User).filter(User.id == current_id).count()
 
-
 class Tweet(db.Model):
     __tablename__ = 'tweet'
 
@@ -52,3 +51,9 @@ class KeywordTweet(db.model):
     id = Column(BigInteger, primary_key=True)
     keyword = Column(String)
     tweetID = Column(BigInteger, ForeignKey('tweet.id'), nullable=False)
+
+# class Locality(db.model):
+#   __tablename__ = 'locality'
+
+#   userID = Column(BigInteger, ForeignKey('user.id'), nullable=False)
+#   locality = Column(String)
