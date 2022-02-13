@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { openRequest } from "./http.js";
+import Button from '@mui/material/Button';
 
 function App() {
   const areaName = "Haringey / Tottenham";
@@ -36,11 +36,13 @@ function App() {
       </header>
       <main>
         {!fullContentMode ? (
-          <>
-            <button onClick={getTopics}>Topics available in {areaName}</button>
+          <div style={{
+            paddingTop: 10
+          }}>
+            <Button onClick={getTopics} variant="contained">Topics available in {areaName}</Button>
             <div className="topics">
               {topicsForMyArea.map((topic) => (
-                <button onClick={getUsers}>{topic}</button>
+                <Button onClick={getUsers}>{topic}</Button>
               ))}
             </div>
             <div
@@ -77,14 +79,14 @@ function App() {
                     </div>
                   </div>
                   <div style={{ borderTop: "solid 1px #282c34" }}>
-                    <button onClick={viewAllTopicUserContent}>
+                    <Button onClick={viewAllTopicUserContent}>
                       View all relevant content
-                    </button>
+                    </Button>
                   </div>
                 </div>
               ))}
             </div>
-          </>
+          </div>
         ) : (
           <div
             style={{
