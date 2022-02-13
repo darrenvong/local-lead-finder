@@ -20,8 +20,8 @@ class User(db.Model):
     url = Column(String)
 
     @classmethod
-    def get_user(cls, current_id):
-        return db.session.query(User).filter(User.id == current_id)
+    def is_user_exists(cls, current_id):
+        return db.session.query(User).filter(User.id == current_id).count()
 
 
 class Tweet(db.Model):
