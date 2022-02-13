@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
 }
 
 .App-logo {
@@ -26,6 +27,14 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.topics {
+  padding-top: 15px;
+}
+
+.topics > button + * {
+  margin-right: 5px;
 }
 
 @keyframes App-logo-spin {
