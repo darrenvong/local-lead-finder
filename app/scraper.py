@@ -10,16 +10,6 @@ from models import Tweet, User
 db.create_all()
 
 def map_tweet_to_db(raw_tweet):
-    tweet = Tweet(
-        id=raw_tweet.id,
-        content=raw_tweet.content,
-        url=raw_tweet.url,
-        date=raw_tweet.date,
-        retweetedTweet=True if raw_tweet.retweetedTweet else False,
-        quotedTweet=True if raw_tweet.quotedTweet else False
-    )
-    db.session.add(tweet)
-
     raw_user = raw_tweet.user
     if not User.is_user_exists(raw_user.id):
         user = User(
@@ -37,6 +27,18 @@ def map_tweet_to_db(raw_tweet):
             url=raw_user.url
         )
         db.session.add(user)
+        db.session.flush()
+    
+    tweet = Tweet(
+        id=raw_tweet.id,
+        content=raw_tweet.content,
+        url=raw_tweet.url,
+        date=raw_tweet.date,
+        retweetedTweet=True if raw_tweet.retweetedTweet else False,
+        userID=raw_tweet.user.id,
+        quotedTweet=True if raw_tweet.quotedTweet else False
+    )
+    db.session.add(tweet)
 
     db.session.commit()
 
