@@ -37,7 +37,7 @@ class Tweet(db.Model):
     # "place": null,
     # "hashtags": ["Haringey"]
 
-class KeywordScore(db.model):
+class KeywordScore(db.Model):
     __tablename__ = 'keywordScore'
 
     id = Column(BigInteger, primary_key=True)
