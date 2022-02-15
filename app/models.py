@@ -45,14 +45,14 @@ class KeywordScore(db.Model):
     keyword = Column(String)
     score = Column(Integer)
 
-class KeywordTweet(db.model):
+class KeywordTweet(db.Model):
     __tablename__ = 'keywordTweet'
 
     id = Column(BigInteger, primary_key=True)
     keyword = Column(String)
     tweetID = Column(BigInteger, ForeignKey('tweet.id'), nullable=False)
 
-class Locality(db.model):
+class Locality(db.Model):
   __tablename__ = 'locality'
 
   userID = Column(BigInteger, ForeignKey('user.id'), nullable=False)
