@@ -20,7 +20,7 @@ class User(db.Model):
     url = Column(String)
 
     @classmethod
-    def is_user_exists(cls, current_id):
+    def is_exists(cls, current_id):
         return db.session.query(User).filter(User.id == current_id).count()
 
 class Tweet(db.Model):
@@ -33,9 +33,10 @@ class Tweet(db.Model):
     date = Column(DateTime)
     retweetedTweet = Column(Boolean)
     quotedTweet = Column(Boolean)
-    # "coordinates": null,
-    # "place": null,
-    # "hashtags": ["Haringey"]
+
+    @classmethod
+    def is_exists(cls, current_id):
+        return db.session.query(Tweet).filter(Tweet.id == current_id).count()
 
 class KeywordScore(db.Model):
     __tablename__ = 'keywordScore'
@@ -55,5 +56,6 @@ class KeywordTweet(db.Model):
 class Locality(db.Model):
   __tablename__ = 'locality'
 
+  id = Column(BigInteger, primary_key=True)
   userID = Column(BigInteger, ForeignKey('user.id'), nullable=False)
   locality = Column(String)
