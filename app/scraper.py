@@ -1,17 +1,15 @@
 import json
+from pprint import pprint as pp
 
 import snscrape.modules.twitter as sntwitter
 
-from db import db
-from pprint import pprint as pp
+from app import db
 from models import Tweet, User
 
 
-db.create_all()
-
 def map_tweet_to_db(raw_tweet):
     raw_user = raw_tweet.user
-    if not User.is_user_exists(raw_user.id):
+    if not User.is_exists(raw_user.id):
         user = User(
             id=raw_user.id,
             username=raw_user.username,
@@ -27,20 +25,20 @@ def map_tweet_to_db(raw_tweet):
             url=raw_user.url
         )
         db.session.add(user)
-        db.session.flush()
-    
-    tweet = Tweet(
-        id=raw_tweet.id,
-        content=raw_tweet.content,
-        url=raw_tweet.url,
-        date=raw_tweet.date,
-        retweetedTweet=True if raw_tweet.retweetedTweet else False,
-        userID=raw_tweet.user.id,
-        quotedTweet=True if raw_tweet.quotedTweet else False
-    )
-    db.session.add(tweet)
+        db.session.commit()
 
-    db.session.commit()
+    if not Tweet.is_exists(raw_tweet.id):
+        tweet = Tweet(
+            id=raw_tweet.id,
+            content=raw_tweet.content,
+            url=raw_tweet.url,
+            date=raw_tweet.date,
+            retweetedTweet=True if raw_tweet.retweetedTweet else False,
+            userID=raw_tweet.user.id,
+            quotedTweet=True if raw_tweet.quotedTweet else False
+        )
+        db.session.add(tweet)
+        db.session.commit()
 
 
 def scrape_tweets(query, max_tries):
@@ -54,29 +52,11 @@ def scrape_tweets(query, max_tries):
     return tweets
 
 
-if __name__ == "__main__":   
-    tweets = scrape_tweets("tottenham :2022-02-10 until:2022-02-11", 10)
+if __name__ == "__main__":
+    db.create_all()
+    print("scraping Tweets")
+    tweets = scrape_tweets("london :2022-02-1 until:2022-02-13", 1000)
 
     for t in tweets:
+        print(t.content)
         map_tweet_to_db(t)
-        #u = sntwitter.TwitterProfileScraper(t.user).get_items()
-        # import pdb;pdb.set_trace()
-        # tweet_user = User(
-
-        # )
-        # tweet_model = Tweet(
-        #     id=t.id,
-        #     content=t.content,
-        #     url=t.url,
-        #     date=t.date,
-        #     retweetedTweet=t.retweetedTweet,
-        #     quotedTweet=t.quotedTweet
-        # )
-
-
-        # print(tweet_model)
-
-# 'url', 'date', 'content', 'renderedContent', 'id', 'user', 'replyCount', 'retweetCount',
-#  'likeCount', 'quoteCount', 'conversationId', 'lang', 'source', 'sourceUrl', 'sourceLabel',
-#  'outlinks', 'tcooutlinks', 'media', 'retweetedTweet', 'quotedTweet', 'inReplyToTweetId',
-#  'inReplyToUser', 'mentionedUsers', 'coordinates', 'place', 'hashtags', 'cashtags']
