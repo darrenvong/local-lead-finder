@@ -23,7 +23,8 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - db scraper
+      - db
+      - scraper
     restart: on-failure
 
 volumes:
