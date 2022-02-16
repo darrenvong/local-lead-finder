@@ -1,7 +1,5 @@
-import time
-from flask import Flask, render_template, flash, redirect, request, url_for
-from flask_sqlalchemy import SQLAlchemy
-from app import app, db
+from flask import render_template
+from app import app
 
 
 @app.route('/', methods=['GET', 'POST'])
