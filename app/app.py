@@ -11,14 +11,9 @@ DBHOST =  environ.get('DB_HOST', 'localhost')
 DBPORT = '5432'
 DBNAME = 'local-leader'
 DBDRIVER = '+psycopg2'
-app.config['SQLALCHEMY_DATABASE_URI'] = \
-    'postgresql{driver}://{user}:{passwd}@{host}:{port}/{db}'.format(
-        driver=DBDRIVER,
-        user=DBUSER,
-        passwd=DBPASS,
-        host=DBHOST,
-        port=DBPORT,
-        db=DBNAME)
+DB_URI = f'postgresql{DBDRIVER}://{DBUSER}:{DBPASS}@{DBHOST}:{DBPORT}/{DBNAME}'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = "secret"
 
