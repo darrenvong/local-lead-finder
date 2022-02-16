@@ -1,3 +1,4 @@
+from os import environ
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -6,7 +7,7 @@ app = Flask(__name__)
 
 DBUSER = 'postgres'
 DBPASS = 'postgres'
-DBHOST = 'db'
+DBHOST =  environ.get('DB_HOST', 'localhost')
 DBPORT = '5432'
 DBNAME = 'local-leader'
 DBDRIVER = '+psycopg2'
