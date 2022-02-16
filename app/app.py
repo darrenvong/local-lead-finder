@@ -6,11 +6,13 @@ app = Flask(__name__)
 
 DBUSER = 'postgres'
 DBPASS = 'postgres'
-DBHOST = 'localhost'
-DBPORT = '5431'
-DBNAME = 'postgres'
+DBHOST = 'db'
+DBPORT = '5432'
+DBNAME = 'local-leader'
+DBDRIVER = '+psycopg2'
 app.config['SQLALCHEMY_DATABASE_URI'] = \
-    'postgresql+psycopg1://{user}:{passwd}@{host}:{port}/{db}'.format(
+    'postgresql{driver}://{user}:{passwd}@{host}:{port}/{db}'.format(
+        driver=DBDRIVER,
         user=DBUSER,
         passwd=DBPASS,
         host=DBHOST,
@@ -20,3 +22,4 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = "secret"
 
 db = SQLAlchemy(app)
+db.create_all()
