@@ -3,7 +3,7 @@ from pprint import pprint as pp
 
 import snscrape.modules.twitter as sntwitter
 
-from . import db
+from app import db
 from models import Tweet, User
 
 
