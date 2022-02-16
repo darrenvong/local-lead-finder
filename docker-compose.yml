@@ -1,26 +1,31 @@
 version: "3.7"
 services:
-  web:
-    build:
-      context: ./app
-      dockerfile: ./Dockerfile
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./app/:/home/app/
-    depends_on:
-      - db
-    restart: on-failure
   db:
-    image: postgres:10
+    image: postgres
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=local-leader
     ports:
       - "5432:5432"
+    volumes:
+      - ./db-data/:/var/lib/postgresql/data/
+
   scraper:
-    build: ./app
-    entrypoint: python3 scraper.py
+    build:
+      dockerfile: ./scraper.Dockerfile 
     depends_on:
       - db
-    # restart: on-failure
+
+  web:
+    build:
+      dockerfile: ./app.Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db scraper
+    restart: on-failure
+
+volumes:
+  db-data:
+
